@@ -32,10 +32,9 @@ class World {
   final _creationQueue = [];
   final _positionQueue = [];
   World (canvasElem, options) {
-    _ops = new Map.from(WORLD_DEFAULT_OPTIONS + options);
+    _ops = new Map.from(WORLD_DEFAULT_OPTIONS);
     final gravity = new box2d.vec2(_ops['gravity']['x'], _ops['gravity']['y']);
-    _world = new box2d.World(gravity, true, box2d.DefaultWorldPool);
-    final world = _world;
+    _world = new box2d.World(gravity, true, new box2d.DefaultWorldPool());
     _canvas = canvasElem;
     _ctx = _canvas.getContext("2d");
     _scale = _ops['scale'];
@@ -49,8 +48,7 @@ class World {
           _onTick[i].fun.call(ctx);
         }
       }
-      print('This will be logged to the console in the browser.');
     }
-    new Timer.periodic(_ops.tickFrequency, ontick_loop);    
+    new Timer.periodic(const Duration(milliseconds: 1) * _ops['tickFrequency'], ontick_loop);    
   }
 }

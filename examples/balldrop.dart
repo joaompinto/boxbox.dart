@@ -1,7 +1,7 @@
 library balldrop;
 
 import 'dart:html';
-import 'package:boxbox/boxbox.dart';
+import 'package:boxbox/boxbox.dart' as bb;
 
 void main() {
   final simulation = new Simulation(query("#container"));
@@ -10,7 +10,10 @@ void main() {
 
 class Simulation {
   var canvas;
-  Simulation(this.canvas);
+  var _world;
+  Simulation(this.canvas) {
+    _world = new bb.World(canvas, {});
+  }
   void start() {
   }
 }
