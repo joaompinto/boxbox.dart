@@ -1,4 +1,4 @@
-name: dartboxbox
+name: boxbox
 description: A sample web application
 dependencies:
   box2d: any

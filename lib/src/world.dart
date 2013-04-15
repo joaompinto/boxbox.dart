@@ -9,9 +9,11 @@ var WORLD_DEFAULT_OPTIONS = {
 };
 
 class World {
-  var _ops = null;
-  var _world =  null;
-  var _canvas = null;
+  var _ops;
+  var _world;
+  var _canvas;
+  var _ctx;
+  var _scale;
   final _keydownHandlers = {};
   final  _keyupHandlers = {};
   final _startContactHandlers = {};
@@ -33,5 +35,22 @@ class World {
     _ops = new Map.from(WORLD_DEFAULT_OPTIONS + options);
     final gravity = new box2d.vec2(_ops['gravity']['x'], _ops['gravity']['y']);
     _world = new box2d.World(gravity, true, box2d.DefaultWorldPool);
+    final world = _world;
+    _canvas = canvasElem;
+    _ctx = _canvas.getContext("2d");
+    _scale = _ops['scale'];
+    
+    ontick_loop(Timer timer) {
+      var i;
+      var ctx;
+      for (i = 0; i < _onTick.length; i++) {
+        ctx = _onTick[i].ctx;
+        if (!ctx._destroyed) {
+          _onTick[i].fun.call(ctx);
+        }
+      }
+      print('This will be logged to the console in the browser.');
+    }
+    new Timer.periodic(_ops.tickFrequency, ontick_loop);    
   }
 }
